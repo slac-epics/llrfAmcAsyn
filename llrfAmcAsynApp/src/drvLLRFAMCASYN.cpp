@@ -51,7 +51,7 @@
 #include "yamlLoader.h"
 
 LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
-: 
+:
     asynPortDriver(
         portName.c_str(),
         1,
