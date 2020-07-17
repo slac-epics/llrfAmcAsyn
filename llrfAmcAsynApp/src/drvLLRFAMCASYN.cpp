@@ -66,6 +66,11 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     portName(pn),              // Port name
     llrfAmc(ILlrfAmc::create(cpswGetRoot()))
 {
+    // Print the down and up converter module names
+    std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
+    std::cout << driverName << " : Up converter module name   : " << llrfAmc->getUpConv()->getModuleName() << std::endl;
+    std::cout << std::endl;
+
     // Initialize the LlrfAmc object
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
     bool success;
