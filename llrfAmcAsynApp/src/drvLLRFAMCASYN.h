@@ -21,11 +21,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "asynPortDriver.h"
-
+#include <asynPortDriver.h>
 #include <cpsw_api_builder.h>
 #include <cpsw_api_user.h>
 #include <yaml-cpp/yaml.h>
+#include <LlrfAmc.h>
 
 class LLRFAMCASYN : public asynPortDriver {
     public:
@@ -35,4 +35,6 @@ class LLRFAMCASYN : public asynPortDriver {
     private:
         std::string driverName; // This driver name
         std::string portName;   // Port name (passed from st.cmd)
+
+        LlrfAmc llrfAmc;
 };
