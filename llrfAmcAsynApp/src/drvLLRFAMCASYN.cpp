@@ -64,7 +64,7 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         0),                                                                         // Default stack size
     driverName("LlrfAmcAsyn"), // Driver name
     portName(pn),              // Port name
-    llrfAmc(cpswGetRoot())
+    llrfAmc(ILlrfAmc::create(cpswGetRoot()))
 {
     // Initialize the LlrfAmc object
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
