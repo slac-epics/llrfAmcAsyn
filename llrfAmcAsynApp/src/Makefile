@@ -21,10 +21,11 @@ LIB_LIBS += yamlLoader
 #=====================================================
 # Path to "NON EPICS" External PACKAGES: USER INCLUDES
 #======================================================
-USR_INCLUDES = $(addprefix -I,$(BOOST_INCLUDE) $(CPSW_FRAMEWORK_INCLUDE) $(YAML_INCLUDE))
+USR_INCLUDES = $(addprefix -I,$(BOOST_INCLUDE) $(CPSW_FRAMEWORK_INCLUDE) $(YAML_INCLUDE) $(LLRFAMC_INCLUDE))
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)
 yaml-cpp_DIR = $(YAML_LIB)
-USR_LIBS_Linux += cpsw yaml-cpp
+llrfAmc_DIR = $(LLRFAMC_LIB)
+USR_LIBS_Linux += llrfAmc cpsw yaml-cpp
 #======================================================
 
 #===========================
