@@ -53,7 +53,7 @@
 LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
 :
     asynPortDriver(
-        portName.c_str(),
+        pn.c_str(),
         1,
         asynInt32Mask | asynDrvUserMask | asynOctetMask | \
         asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
