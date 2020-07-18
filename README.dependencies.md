@@ -109,6 +109,5 @@ This is optional, if you want to use the record database provided by this module
 # ==========================================
 # llrfAmcAsyn databases
 # ==========================================
-
 DB_INSTALLS += $(LLRFAMCASYN)/db/llrfAmcAsyn.db
 ```
