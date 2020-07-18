@@ -2,7 +2,7 @@ record(bo,      "$(P):llrfAmcInit") {
     field(DESC, "Run llrfAmc initialization sequence")
     field(DTYP, "asynUInt32Digital")
     field(SCAN, "Passive")
-    field(INP,  "@asynMask($(PORT),0x01)INIT")
+    field(OUT,  "@asynMask($(PORT),0x01)INIT")
 }
 
 record(mbbi,    "$(P):llrfAmcInitStatus") {
@@ -17,6 +17,5 @@ record(mbbi,    "$(P):llrfAmcInitStatus") {
     field(ZRST, "Failed")
     field(ONST, "Succeed")
     field(TWST, "In progress...")
-    field(VAL,  "0")
     field(PINI, "YES")
 }
