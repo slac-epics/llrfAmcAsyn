@@ -93,6 +93,49 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     }
 }
 
+asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask)
+{
+    int function { pasynUser->reason };
+    static const char *functionName = "writeUInt32Digital";
+    bool success;   // Return value, false on error.
+
+    if(function == paramInitIndex)
+    {
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+            "%s::%s, function %d, port %s : Calling llrfAmc->init()\n", \
+            driverName.c_str(), functionName, function, (this->portName).c_str());
+
+        success = llrfAmc->init();
+
+        if (success)
+        {
+            asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+                "%s::%s, function %d, port %s : Call to llrfAmc->init() succeed!\n", \
+                driverName.c_str(), functionName, function, (this->portName).c_str());
+        }
+        else
+        {
+            asynPrint(pasynUser, ASYN_TRACEIO_ERROR, \
+                "%s::%s, function %d, port %s : Call to llrfAmc->init() failed!\n", \
+                driverName.c_str(), functionName, function, (this->portName).c_str());
+        }
+    }
+    else if (function == paramInitStatIndex)
+    {
+        asynPrint(pasynUser, ASYN_TRACEIO_ERROR, \
+            "%s::%s, function %d, port %s : Parameter %s is write-only.\n", \
+            driverName.c_str(), functionName, function, (this->portName).c_str(), paraminitStatName.c_str());
+
+        success = false;
+    }
+    else
+    {
+        success = !(asynPortDriver::writeUInt32Digital(pasynUser, value, mask));
+    }
+
+    return (success)? asynSuccess : asynError;
+}
+
 // + LlrfAmcAsynConfig //
 extern "C" int LlrfAmcAsynConfig(const char *portName)
 {

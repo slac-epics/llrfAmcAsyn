@@ -32,6 +32,9 @@ class LLRFAMCASYN : public asynPortDriver {
         // Constructor
         LLRFAMCASYN(const std::string& pn);
 
+        // Methods that we override from asynPortDriver
+        virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+
     private:
         std::string driverName; // This driver name
         std::string portName;   // Port name (passed from st.cmd)
