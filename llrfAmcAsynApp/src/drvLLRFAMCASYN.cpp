@@ -62,10 +62,18 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         1,                                                                          // Autoconnect
         0,                                                                          // Default priority
         0),                                                                         // Default stack size
-    driverName("LlrfAmcAsyn"), // Driver name
-    portName(pn),              // Port name
-    llrfAmc(ILlrfAmc::create(cpswGetRoot()))
+    driverName("LlrfAmcAsyn"),                  // Driver name
+    portName(pn),                               // Port name
+    llrfAmc(ILlrfAmc::create(cpswGetRoot())),   // llrfAmc object
+    paramInitName("INIT"),                      // INIT parameter name
+    paraminitStatName("INIT_STAT"),             // INIT_STAT parameter name
+    paramInitMask(0x01),                        // INIT parameter mask
+    paramInitStatMask(0x03)                     // INIT_STAT parameter mask
 {
+    // Create asyn parameters
+    createParam(paramInitName,     asynParamUInt32Digital, &paramInitIndex);
+    createParam(paraminitStatName, asynParamUInt32Digital, &paramInitStatIndex);
+
     // Print the down and up converter module names
     std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
     std::cout << driverName << " : Up converter module name   : " << llrfAmc->getUpConv()->getModuleName() << std::endl;
@@ -78,11 +86,17 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         success &= llrfAmc->isInited();
     }
 
-    // Check if the initialization succeed
+    // Check if the initialization succeed and update the INIT_STAT parameter
     if ( !success )
+    {
         std::cerr << driverName << " : Initialization failed!" << std::endl;
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
+    }
     else
+    {
         std::cout << driverName << " : Initialization succeed!" << std::endl;
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
+    }
 }
 
 // + LlrfAmcAsynConfig //

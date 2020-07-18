@@ -36,5 +36,26 @@ class LLRFAMCASYN : public asynPortDriver {
         std::string driverName; // This driver name
         std::string portName;   // Port name (passed from st.cmd)
 
+        // llrfAmc object
         LlrfAmc llrfAmc;
+
+        // Parameter names
+        const std::string paramInitName;        // INIT
+        const std::string paraminitStatName;    // INIT_STAT
+
+        // Parameter indexes
+        int paramInitIndex;                     // INIT
+        int paramInitStatIndex;                 // INIT_STAT
+
+        // Parameter masks
+        const uint32_t paramInitMask;           // INIT
+        const uint32_t paramInitStatMask;       // INIT_STAT
+
+        // Values for the INIT_STAT parameter
+        enum paramInitStatStates
+        {
+            INIT_STAT_FAILED = 0,
+            INIT_STAT_SUCCEED,
+            INIT_STAT_INPROGRESS
+        };
 };
