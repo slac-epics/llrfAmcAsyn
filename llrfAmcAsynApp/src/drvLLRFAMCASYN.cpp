@@ -69,7 +69,6 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     // Print the down and up converter module names
     std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
     std::cout << driverName << " : Up converter module name   : " << llrfAmc->getUpConv()->getModuleName() << std::endl;
-    std::cout << std::endl;
 
     // Initialize the LlrfAmc object
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
@@ -78,14 +77,12 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     {
         success &= llrfAmc->isInited();
     }
-    std::cout << std::endl;
 
     // Check if the initialization succeed
     if ( !success )
         std::cerr << driverName << " : Initialization failed!" << std::endl;
     else
         std::cout << driverName << " : Initialization succeed!" << std::endl;
-    std::cout << std::endl;
 }
 
 // + LlrfAmcAsynConfig //
