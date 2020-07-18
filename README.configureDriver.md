@@ -4,6 +4,8 @@
 
 llrfAmcAsyn is an EPICS module for the LLRF AMC card low level driver [llrfAmc](https://github.com/slaclab/llrfAmc). It uses AsynPortDriver for its integration into EPICS.
 
+Before trying to configure the driver, make sure you included it and its dependencies in your application as described in [README.dependencies.md](README.dependencies.md).
+
 ## llrfAmcAsyn Configuration
 
 In order to use `llrfAmcAsyn` in your application you must call `LlrfAmcAsynConfig` on your IOC's `st.cmd` script with the following parameters
