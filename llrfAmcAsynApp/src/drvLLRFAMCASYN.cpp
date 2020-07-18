@@ -53,15 +53,14 @@
 LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
 :
     asynPortDriver(
-        pn.c_str(),
-        1,
-        asynInt32Mask | asynDrvUserMask | asynOctetMask | \
-        asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
-        asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask
-        ASYN_CANBLOCK,                                                              // asynFlags
-        1,                                                                          // Autoconnect
-        0,                                                                          // Default priority
-        0),                                                                         // Default stack size
+        pn.c_str(),             // Port name
+        1,                      // Max number of address
+        asynUInt32DigitalMask,  // Interface Mask
+        asynUInt32DigitalMask,  // Interrupt Mask
+        ASYN_CANBLOCK,          // asynFlags
+        1,                      // Autoconnect
+        0,                      // Default priority
+        0),                     // Default stack size
     driverName("LlrfAmcAsyn"),                  // Driver name
     portName(pn),                               // Port name
     llrfAmc(ILlrfAmc::create(cpswGetRoot())),   // llrfAmc object
