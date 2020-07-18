@@ -115,14 +115,14 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
         }
         else
         {
-            asynPrint(pasynUser, ASYN_TRACEIO_ERROR, \
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, \
                 "%s::%s, function %d, port %s : Call to llrfAmc->init() failed!\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
         }
     }
     else if (function == paramInitStatIndex)
     {
-        asynPrint(pasynUser, ASYN_TRACEIO_ERROR, \
+        asynPrint(pasynUser, ASYN_TRACE_ERROR, \
             "%s::%s, function %d, port %s : Parameter %s is write-only.\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str(), paraminitStatName.c_str());
 
