@@ -71,8 +71,8 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     paramInitStatMask(0x03)                     // INIT_STAT parameter mask
 {
     // Create asyn parameters
-    createParam(paramInitName,     asynParamUInt32Digital, &paramInitIndex);
-    createParam(paraminitStatName, asynParamUInt32Digital, &paramInitStatIndex);
+    createParam(paramInitName.c_str(),     asynParamUInt32Digital, &paramInitIndex);
+    createParam(paraminitStatName.c_str(), asynParamUInt32Digital, &paramInitStatIndex);
 
     // Print the down and up converter module names
     std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
