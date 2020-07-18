@@ -58,7 +58,7 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         asynInt32Mask | asynDrvUserMask | asynOctetMask | \
         asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
         asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask
-        ASYN_MULTIDEVICE | ASYN_CANBLOCK,                                           // asynFlags
+        ASYN_CANBLOCK,                                                              // asynFlags
         1,                                                                          // Autoconnect
         0,                                                                          // Default priority
         0),                                                                         // Default stack size
