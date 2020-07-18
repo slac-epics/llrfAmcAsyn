@@ -80,20 +80,15 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
 
     // Initialize the LlrfAmc object
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
-    bool success;
-    if ( success =  llrfAmc->init() )
-    {
+    bool success { llrfAmc->init() };
+    if (success)
         success &= llrfAmc->isInited();
-    }
 
     // Check if the initialization succeed and update the INIT_STAT parameter
-    if ( !success )
-    {
+    if (!success) {
         std::cerr << driverName << " : Initialization failed!" << std::endl;
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
-    }
-    else
-    {
+    } else {
         std::cout << driverName << " : Initialization succeed!" << std::endl;
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
     }
