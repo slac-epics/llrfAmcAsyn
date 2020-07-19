@@ -105,6 +105,10 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
             "%s::%s, function %d, port %s : Calling llrfAmc->init()\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str());
 
+        // Update INIT_STAT parameter value
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
+        callParamCallbacks();
+
         success = llrfAmc->init();
 
         if (success)
@@ -125,6 +129,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
             // Update INIT_STAT parameter value
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
         }
+        callParamCallbacks();
     }
     else if (function == paramInitStatIndex)
     {
