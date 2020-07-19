@@ -107,7 +107,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
         // Update INIT_STAT parameter value
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
-        callParamCallbacks();
+        callParamCallbacks(paramInitStatIndex);
 
         bool success = llrfAmc->init();
 
@@ -133,7 +133,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
             status = asynError;
         }
-        callParamCallbacks();
+        callParamCallbacks(paramInitStatIndex);
     }
     else if (function == paramInitStatIndex)
     {
