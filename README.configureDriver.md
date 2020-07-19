@@ -49,3 +49,17 @@ cpswLoadConfigFile("${DEFAULTS_FILE}", "mmio")
 #    Port Name)     # The name given to this port driver
 LlrfAmcAsynConfig("${LLRFAMCASYN_PORT}")
 ```
+
+## Optional configuration parameters
+
+Some parameters used by the driver have default values that can be changed calling functions in your st.cmd. The following is a list these parameters, their default values, and the function used to change them.
+
+| Parameter                              | Default value          | Function to set a new value
+|----------------------------------------|------------------------|-------------------------------------
+| llrfAmc driver log level               | 2 (defined in llrfAmc) | LlrfAmcAsynSetLogLevel(int logLevel)
+
+**Notes:**
+- Allowed values for `logLevel` are:
+  - 0: Debug log level,
+  - 1: Warning log level,
+  - 2: Error log level.
