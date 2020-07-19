@@ -255,7 +255,7 @@ static const iocshArg * const LlrfAmcAsynSetLogLevelArgs[] = {
     &LlrfAmcAsynSetLogLevelArg0
 };
 
-static const iocshFuncDef LLlrfAmcAsynSetLogLevelFuncDef = { "LlrfAmcAsynSetLogLevel", 1, LlrfAmcAsynSetLogLevelArgs };
+static const iocshFuncDef LlrfAmcAsynSetLogLevelFuncDef = { "LlrfAmcAsynSetLogLevel", 1, LlrfAmcAsynSetLogLevelArgs };
 
 static void LlrfAmcAsynSetLogLevelCallFunc(const iocshArgBuf *args)
 {
