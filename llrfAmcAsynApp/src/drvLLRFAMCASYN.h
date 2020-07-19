@@ -44,7 +44,7 @@ class LLRFAMCASYN : public asynPortDriver {
 
         // Parameter names
         const std::string paramInitName;        // INIT
-        const std::string paraminitStatName;    // INIT_STAT
+        const std::string paramInitStatName;    // INIT_STAT
 
         // Parameter indexes
         int paramInitIndex;                     // INIT

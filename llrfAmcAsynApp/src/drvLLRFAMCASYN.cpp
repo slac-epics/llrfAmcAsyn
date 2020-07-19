@@ -65,13 +65,13 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     portName(pn),                               // Port name
     llrfAmc(ILlrfAmc::create(cpswGetRoot())),   // llrfAmc object
     paramInitName("INIT"),                      // INIT parameter name
-    paraminitStatName("INIT_STAT"),             // INIT_STAT parameter name
+    paramInitStatName("INIT_STAT"),             // INIT_STAT parameter name
     paramInitMask(0x01),                        // INIT parameter mask
     paramInitStatMask(0x03)                     // INIT_STAT parameter mask
 {
     // Create asyn parameters
     createParam(paramInitName.c_str(),     asynParamUInt32Digital, &paramInitIndex);
-    createParam(paraminitStatName.c_str(), asynParamUInt32Digital, &paramInitStatIndex);
+    createParam(paramInitStatName.c_str(), asynParamUInt32Digital, &paramInitStatIndex);
 
     // Print the down and up converter module names
     std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
@@ -130,7 +130,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
     {
         asynPrint(pasynUser, ASYN_TRACE_ERROR, \
             "%s::%s, function %d, port %s : Parameter %s is write-only.\n", \
-            driverName.c_str(), functionName, function, (this->portName).c_str(), paraminitStatName.c_str());
+            driverName.c_str(), functionName, function, (this->portName).c_str(), paramInitStatName.c_str());
 
         success = false;
     }
