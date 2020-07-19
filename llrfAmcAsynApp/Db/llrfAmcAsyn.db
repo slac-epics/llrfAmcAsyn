@@ -5,6 +5,13 @@ record(bo,      "$(P):llrfAmcInit") {
     field(OUT,  "@asynMask($(PORT),0,0x01)INIT")
 }
 
+record(bo,      "$(P):llrfAmcCheck") {
+    field(DESC, "Run llrfAmc card status checks")
+    field(DTYP, "asynUInt32Digital")
+    field(SCAN, "Passive")
+    field(OUT,  "@asynMask($(PORT),0,0x01)CHECK")
+}
+
 record(mbbi,    "$(P):llrfAmcInitStatus") {
     field(DESC, "llrfAmc initialization status")
     field(DTYP, "asynUInt32Digital")
@@ -18,4 +25,22 @@ record(mbbi,    "$(P):llrfAmcInitStatus") {
     field(ONST, "Succeed")
     field(TWST, "In progress...")
     field(PINI, "YES")
+}
+
+record(bi,      "$(P):llrfAmcDownConvStatus") {
+    field(DESC, "llrfAmc DownConverter card status")
+    field(DTYP, "asynUInt32Digital")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asynMask($(PORT),0,0x01)DC_STAT")
+    field(ZNAM, "Not locked")
+    field(ONAM, "Locked)")
+}
+
+record(bi,      "$(P):llrfAmcUpConvStatus") {
+    field(DESC, "llrfAmc UpConverter card status")
+    field(DTYP, "asynUInt32Digital")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asynMask($(PORT),0,0x01)UC_STAT")
+    field(ZNAM, "Not locked")
+    field(ONAM, "Locked)")
 }

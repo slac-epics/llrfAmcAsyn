@@ -66,12 +66,20 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     llrfAmc(ILlrfAmc::create(cpswGetRoot())),   // llrfAmc object
     paramInitName("INIT"),                      // INIT parameter name
     paramInitStatName("INIT_STAT"),             // INIT_STAT parameter name
+    paramCheckName("CHECK"),                    // CHECK parameter name
+    paramDCStatName("DC_STAT"),                 // DC_STAT parameter name
+    paramUCStatName("UC_STAT"),                 // UC_STAT parameter name
     paramInitMask(0x01),                        // INIT parameter mask
-    paramInitStatMask(0x03)                     // INIT_STAT parameter mask
+    paramInitStatMask(0x03),                    // INIT_STAT parameter mask
+    paramCheckMask(0x01),                       // CHECK parameter mask
+    paramXCStatMask(0x01),                      // xC_STAT parameter mask
 {
     // Create asyn parameters
     createParam(paramInitName.c_str(),     asynParamUInt32Digital, &paramInitIndex);
     createParam(paramInitStatName.c_str(), asynParamUInt32Digital, &paramInitStatIndex);
+    createParam(paramCheckName.c_str(),    asynParamUInt32Digital, &paramCheckIndex);
+    createParam(paramDCStatName.c_str(),   asynParamUInt32Digital, &paramDCStatIndex);
+    createParam(paramUCStatName.c_str(),   asynParamUInt32Digital, &paramUCStatIndex);
 
     // Print the down and up converter module names
     std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
@@ -81,13 +89,22 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
     bool success { llrfAmc->init() };
 
-    // Check if the initialization succeed and update the INIT_STAT parameter
+    // Check if the initialization succeed and update the INIT_STAT and xC_STAT parameters
     if (success) {
         std::cout << driverName << " : Initialization succeed!" << std::endl;
+
+        // If 'llrfAmc->init()' succeed, the both up and down converter cards are locked.
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
+        setUIntDigitalParam(paramDCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
     } else {
         std::cerr << driverName << " : Initialization failed!" << std::endl;
-        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
+
+        // If 'llrfAmc->init()' failed, then we need to check if the up and down converter
+        // status individually.
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED,            paramInitStatMask);
+        setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
     }
 }
 
@@ -115,8 +132,10 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
                 "%s::%s, function %d, port %s : Call to llrfAmc->init() succeed!\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
 
-            // Update INIT_STAT parameter value
+            // Update INIT_STAT and xC_STAT parameter values
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
+            setUIntDigitalParam(paramDCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
+            setUIntDigitalParam(paramUCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
 
             status = asynSuccess;
         }
@@ -126,16 +145,24 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
                 "%s::%s, function %d, port %s : Call to llrfAmc->init() failed!\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
 
-            // Update INIT_STAT parameter value
+            // Update INIT_STAT and xC_STAT parameter values
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
+            setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
+            setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
 
             status = asynError;
         }
         callParamCallbacks();
     }
-    else if (function == paramInitStatIndex)
+    else if (function == paramCheckIndex)
     {
-        // The 'INIT_STAT' parameter is write-only, so avoid it to be changed by the user.
+        setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
+        callParamCallbacks();
+    }
+    else if ( function == paramInitStatIndex || function == paramDCStatIndex || function == paramUCStatIndex )
+    {
+        // The 'INIT_STAT' and 'xC_STAT' parameters are write-only, so avoid them to be changed by the user.
         asynPrint(pasynUser, ASYN_TRACE_ERROR, \
             "%s::%s, function %d, port %s : Parameter %s is write-only.\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str(), paramInitStatName.c_str());

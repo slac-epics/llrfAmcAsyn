@@ -45,14 +45,22 @@ class LLRFAMCASYN : public asynPortDriver {
         // Parameter names
         const std::string paramInitName;        // INIT
         const std::string paramInitStatName;    // INIT_STAT
+        const std::string paramCheckName;       // CHECK
+        const std::string paramDCStatName;      // DC_STAT
+        const std::string paramUCStatName;      // UC_STAT
 
         // Parameter indexes
         int paramInitIndex;                     // INIT
         int paramInitStatIndex;                 // INIT_STAT
+        int paramCheckIndex;                    // CHECK
+        int paramDCStatIndex;                   // DC_STAT
+        int paramUCStatIndex;                   // UC_STAT
 
         // Parameter masks
         const uint32_t paramInitMask;           // INIT
         const uint32_t paramInitStatMask;       // INIT_STAT
+        const uint32_t paramCheckMask;          // CHECK
+        const uint32_t paramXCStatMask;         // xC_STAT
 
         // Values for the INIT_STAT parameter
         enum paramInitStatStates
@@ -60,5 +68,12 @@ class LLRFAMCASYN : public asynPortDriver {
             INIT_STAT_FAILED = 0,
             INIT_STAT_SUCCEED,
             INIT_STAT_INPROGRESS
+        };
+
+        // Values for the xC_STAT parameters
+        enum paramXCStatStates
+        {
+            XC_STAT_NOTLOCKED = 0,
+            XC_STAT_LOCKED
         };
 };
