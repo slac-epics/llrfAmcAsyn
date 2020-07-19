@@ -72,7 +72,7 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     paramInitMask(0x01),                        // INIT parameter mask
     paramInitStatMask(0x03),                    // INIT_STAT parameter mask
     paramCheckMask(0x01),                       // CHECK parameter mask
-    paramXCStatMask(0x01),                      // xC_STAT parameter mask
+    paramXCStatMask(0x01)                       // xC_STAT parameter mask
 {
     // Create asyn parameters
     createParam(paramInitName.c_str(),     asynParamUInt32Digital, &paramInitIndex);
