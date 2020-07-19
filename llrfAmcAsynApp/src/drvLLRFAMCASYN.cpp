@@ -141,7 +141,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
     }
     else
     {
-        success = !(asynPortDriver::writeUInt32Digital(pasynUser, value, mask));
+        success = (asynSuccess == asynPortDriver::writeUInt32Digital(pasynUser, value, mask));
     }
 
     return (success)? asynSuccess : asynError;
