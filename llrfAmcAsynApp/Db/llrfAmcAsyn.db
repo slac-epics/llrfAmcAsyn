@@ -33,7 +33,7 @@ record(bi,      "$(P):llrfAmcDownConvStatus") {
     field(SCAN, "I/O Intr")
     field(INP,  "@asynMask($(PORT),0,0x01)DC_STAT")
     field(ZNAM, "Not locked")
-    field(ONAM, "Locked)")
+    field(ONAM, "Locked")
 }
 
 record(bi,      "$(P):llrfAmcUpConvStatus") {
@@ -42,5 +42,5 @@ record(bi,      "$(P):llrfAmcUpConvStatus") {
     field(SCAN, "I/O Intr")
     field(INP,  "@asynMask($(PORT),0,0x01)UC_STAT")
     field(ZNAM, "Not locked")
-    field(ONAM, "Locked)")
+    field(ONAM, "Locked")
 }
