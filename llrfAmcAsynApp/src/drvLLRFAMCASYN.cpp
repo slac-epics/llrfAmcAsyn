@@ -44,7 +44,6 @@
 #include <cpsw_api_builder.h>
 #include <cpsw_api_user.h>
 #include <yaml-cpp/yaml.h>
-#include <LlrfAmcLogger.h>
 #include <yamlLoader.h>
 
 #include "drvLLRFAMCASYN.h"
@@ -63,6 +62,7 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     driverName("LlrfAmcAsyn"),                  // Driver name
     portName(pn),                               // Port name
     llrfAmc(ILlrfAmc::create(cpswGetRoot())),   // llrfAmc object
+    log(ILogger::create(driverName)),           // Logger
     paramInitName("INIT"),                      // INIT parameter name
     paramInitStatName("INIT_STAT"),             // INIT_STAT parameter name
     paramCheckName("CHECK"),                    // CHECK parameter name
@@ -81,23 +81,23 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     createParam(paramUCStatName.c_str(),   asynParamUInt32Digital, &paramUCStatIndex);
 
     // Print the down and up converter module names
-    std::cout << driverName << " : Down converter module name : " << llrfAmc->getDownConv()->getModuleName() << std::endl;
-    std::cout << driverName << " : Up converter module name   : " << llrfAmc->getUpConv()->getModuleName() << std::endl;
+    log->log(LoggerLevel::Debug, "Down converter module name : " + llrfAmc->getDownConv()->getModuleName());
+    log->log(LoggerLevel::Debug, "Up converter module name   : " + llrfAmc->getUpConv()->getModuleName());
 
     // Initialize the LlrfAmc object
-    std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
+    log->log(LoggerLevel::Debug, "Initializing the LLRF AMC cards...");
     bool success { llrfAmc->init() };
 
     // Check if the initialization succeed and update the INIT_STAT and xC_STAT parameters
     if (success) {
-        std::cout << driverName << " : Initialization succeed!" << std::endl;
+        log->log(LoggerLevel::Debug, "Initialization succeed!");
 
         // If 'llrfAmc->init()' succeed, the both up and down converter cards are locked.
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
         setUIntDigitalParam(paramDCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
         setUIntDigitalParam(paramUCStatIndex,   XC_STAT_LOCKED,    paramXCStatMask);
     } else {
-        std::cerr << driverName << " : Initialization failed!" << std::endl;
+        log->log(LoggerLevel::Error, "Initialization failed!");
 
         // If 'llrfAmc->init()' failed, then we need to check if the up and down converter
         // status individually.

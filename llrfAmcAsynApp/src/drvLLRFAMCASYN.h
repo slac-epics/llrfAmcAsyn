@@ -25,6 +25,7 @@
 #include <cpsw_api_builder.h>
 #include <cpsw_api_user.h>
 #include <yaml-cpp/yaml.h>
+#include <LlrfAmcLogger.h>
 #include <LlrfAmc.h>
 
 class LLRFAMCASYN : public asynPortDriver {
@@ -41,6 +42,9 @@ class LLRFAMCASYN : public asynPortDriver {
 
         // llrfAmc object
         LlrfAmc llrfAmc;
+
+        // Logger (taken from llrfAmc)
+        Logger  log;
 
         // Parameter names
         const std::string paramInitName;        // INIT
