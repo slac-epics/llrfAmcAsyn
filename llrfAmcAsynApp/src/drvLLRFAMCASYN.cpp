@@ -112,12 +112,18 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
             asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
                 "%s::%s, function %d, port %s : Call to llrfAmc->init() succeed!\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
+
+            // Update INIT_STAT parameter value
+            setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
         }
         else
         {
             asynPrint(pasynUser, ASYN_TRACE_ERROR, \
                 "%s::%s, function %d, port %s : Call to llrfAmc->init() failed!\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
+
+            // Update INIT_STAT parameter value
+            setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
         }
     }
     else if (function == paramInitStatIndex)
