@@ -74,6 +74,7 @@ class LLRFAMCASYN : public asynPortDriver {
         enum paramXCStatStates
         {
             XC_STAT_NOTLOCKED = 0,
-            XC_STAT_LOCKED
+            XC_STAT_LOCKED,
+            XC_STAT_INPROGRESS
         };
 };

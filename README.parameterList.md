@@ -23,9 +23,9 @@ This is a list of the values and their meaning for all the parameters that can b
 
 | Value  | Description
 |--------|--------------------------
-| 0      | Initialization failed
-| 1      | Initialization succeed
-| 2      | Initialization in progress
+| 0      | Initialization failed.
+| 1      | Initialization succeed.
+| 2      | Initialization is in progress.
 
 **Note**: This status is updated when the `INIT` command is executed.
 
@@ -35,6 +35,7 @@ This is a list of the values and their meaning for all the parameters that can b
 |--------|--------------------------
 | 0      | The card is not locked.
 | 1      | The card is locked.
+| 2      | Status check is in progress.
 
 **Note**: These statuses are updated when the `INIT` or `CHECK` commands are executed.
 

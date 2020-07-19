@@ -72,7 +72,7 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     paramInitMask(0x01),                        // INIT parameter mask
     paramInitStatMask(0x03),                    // INIT_STAT parameter mask
     paramCheckMask(0x01),                       // CHECK parameter mask
-    paramXCStatMask(0x01)                       // xC_STAT parameter mask
+    paramXCStatMask(0x03)                       // xC_STAT parameter mask
 {
     // Create asyn parameters
     createParam(paramInitName.c_str(),     asynParamUInt32Digital, &paramInitIndex);
@@ -116,13 +116,13 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
     if(function == paramInitIndex)
     {
+        // Update the parameter value to "in progress..."
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
+        callParamCallbacks();
+
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
             "%s::%s, function %d, port %s : Calling llrfAmc->init()\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str());
-
-        // Update INIT_STAT parameter value
-        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
-        callParamCallbacks();
 
         bool success = llrfAmc->init();
 
@@ -147,7 +147,17 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
             // Update INIT_STAT and xC_STAT parameter values
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
+
+            asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+                "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvInited()\n", \
+                driverName.c_str(), functionName, function, (this->portName).c_str());
+
             setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
+
+            asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+                "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvInited()\n", \
+                driverName.c_str(), functionName, function, (this->portName).c_str());
+
             setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
 
             status = asynError;
@@ -156,9 +166,26 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
     }
     else if (function == paramCheckIndex)
     {
-        setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
-        setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
+        // Update the parameter values to "in progress..."
+        setUIntDigitalParam(paramDCStatIndex, XC_STAT_INPROGRESS, paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex, XC_STAT_INPROGRESS, paramXCStatMask);
         callParamCallbacks();
+
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+            "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvInited()\n", \
+            driverName.c_str(), functionName, function, (this->portName).c_str());
+
+        setUIntDigitalParam(paramDCStatIndex, llrfAmc->isDownConvInited(), paramXCStatMask);
+
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
+            "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvInited()\n", \
+            driverName.c_str(), functionName, function, (this->portName).c_str());
+
+        setUIntDigitalParam(paramUCStatIndex, llrfAmc->isUpConvInited(),   paramXCStatMask);
+
+        callParamCallbacks();
+
+        status = asynSuccess;
     }
     else if ( function == paramInitStatIndex || function == paramDCStatIndex || function == paramUCStatIndex )
     {

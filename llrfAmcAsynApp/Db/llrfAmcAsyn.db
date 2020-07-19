@@ -27,20 +27,32 @@ record(mbbi,    "$(P):llrfAmcInitStatus") {
     field(PINI, "YES")
 }
 
-record(bi,      "$(P):llrfAmcDownConvStatus") {
+record(mbbi,    "$(P):llrfAmcDownConvStatus") {
     field(DESC, "llrfAmc DownConverter card status")
     field(DTYP, "asynUInt32Digital")
     field(SCAN, "I/O Intr")
-    field(INP,  "@asynMask($(PORT),0,0x01)DC_STAT")
-    field(ZNAM, "Not locked")
-    field(ONAM, "Locked")
+    field(INP,  "@asynMask($(PORT),0,0x03)DC_STAT")
+    field(NOBT, "2")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "Not locked")
+    field(ONST, "Locked")
+    field(TWST, "Checking...")
+    field(PINI, "YES")
 }
 
-record(bi,      "$(P):llrfAmcUpConvStatus") {
+record(mbbi,    "$(P):llrfAmcUpConvStatus") {
     field(DESC, "llrfAmc UpConverter card status")
     field(DTYP, "asynUInt32Digital")
     field(SCAN, "I/O Intr")
-    field(INP,  "@asynMask($(PORT),0,0x01)UC_STAT")
-    field(ZNAM, "Not locked")
-    field(ONAM, "Locked")
+    field(INP,  "@asynMask($(PORT),0,0x03)UC_STAT")
+    field(NOBT, "2")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "Not locked")
+    field(ONST, "Locked")
+    field(TWST, "Checking...")
+    field(PINI, "YES")
 }
