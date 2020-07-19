@@ -36,19 +36,18 @@
 #include <epicsMutex.h>
 #include <epicsEvent.h>
 #include <iocsh.h>
-
 #include <dbAccess.h>
 #include <dbStaticLib.h>
-
-#include "drvLLRFAMCASYN.h"
-#include "asynPortDriver.h"
+#include <asynPortDriver.h>
 #include <epicsExport.h>
 
 #include <cpsw_api_builder.h>
 #include <cpsw_api_user.h>
 #include <yaml-cpp/yaml.h>
+#include <LlrfAmcLogger.h>
+#include <yamlLoader.h>
 
-#include "yamlLoader.h"
+#include "drvLLRFAMCASYN.h"
 
 LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
 :
@@ -228,24 +227,46 @@ static void LlrfAmcAsynConfigCallFunc(const iocshArgBuf *args)
 }
 // - LlrfAmcAsynConfig //
 
-// + LlrfAmcAsynInit //
-extern "C" int LlrfAmcAsynInit()
+// + LlrfAmcAsynSetLogLevel //
+extern "C" int LlrfAmcAsynSetLogLevel(int logLevel)
 {
-    return asynSuccess;
+    asynStatus status = asynSuccess;
+    switch(logLevel) {
+        case 0:
+            ILogger::setLevel(LoggerLevel::Debug);
+            break;
+        case 1:
+            ILogger::setLevel(LoggerLevel::Warning);
+            break;
+        case 2:
+            ILogger::setLevel(LoggerLevel::Error);
+            break;
+        default:
+            status = asynError;
+            break;
+    }
+
+    return status;
 }
 
-static const iocshFuncDef LlrfAmcAsynInitFuncDef = { "LlrfAmcAsynInit", 0 };
+static const iocshArg LlrfAmcAsynSetLogLevelArg0 = { "logLevel (0: Debug, 1: Warning, 2: Error)", iocshArgInt };
 
-static void LlrfAmcAsynInitCallFunc(const iocshArgBuf *args)
+static const iocshArg * const LlrfAmcAsynSetLogLevelArgs[] = {
+    &LlrfAmcAsynSetLogLevelArg0
+};
+
+static const iocshFuncDef LLlrfAmcAsynSetLogLevelFuncDef = { "LlrfAmcAsynSetLogLevel", 1, LlrfAmcAsynSetLogLevelArgs };
+
+static void LlrfAmcAsynSetLogLevelCallFunc(const iocshArgBuf *args)
 {
-    LlrfAmcAsynInit();
+    LlrfAmcAsynSetLogLevel(args[0].ival);
 }
-// - LlrfAmcAsynInit //
+// - LlrfAmcAsynSetLogLevel //
 
 void drvLLRFAMCASYNRegister(void)
 {
-    iocshRegister( &LlrfAmcAsynConfigFuncDef, LlrfAmcAsynConfigCallFunc );
-    iocshRegister( &LlrfAmcAsynInitFuncDef,   LlrfAmcAsynInitCallFunc   );
+    iocshRegister( &LlrfAmcAsynConfigFuncDef,       LlrfAmcAsynConfigCallFunc       );
+    iocshRegister( &LlrfAmcAsynSetLogLevelFuncDef,  LlrfAmcAsynSetLogLevelCallFunc  );
 }
 
 extern "C" {
