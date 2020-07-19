@@ -97,7 +97,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 {
     int function { pasynUser->reason };
     static const char *functionName = "writeUInt32Digital";
-    bool success;   // Return value, false on error.
+    asynStatus status;
 
     if(function == paramInitIndex)
     {
@@ -109,7 +109,7 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
         callParamCallbacks();
 
-        success = llrfAmc->init();
+        bool success = llrfAmc->init();
 
         if (success)
         {
@@ -119,6 +119,8 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
             // Update INIT_STAT parameter value
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
+
+            status = asynSuccess;
         }
         else
         {
@@ -128,23 +130,26 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
             // Update INIT_STAT parameter value
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
+
+            status = asynError;
         }
         callParamCallbacks();
     }
     else if (function == paramInitStatIndex)
     {
+        // The 'INIT_STAT' parameter is write-only, so avoid it to be changed by the user.
         asynPrint(pasynUser, ASYN_TRACE_ERROR, \
             "%s::%s, function %d, port %s : Parameter %s is write-only.\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str(), paramInitStatName.c_str());
 
-        success = false;
+        status = asynError;
     }
     else
     {
-        success = (asynSuccess == asynPortDriver::writeUInt32Digital(pasynUser, value, mask));
+        status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
     }
 
-    return (success)? asynSuccess : asynError;
+    return status;
 }
 
 // + LlrfAmcAsynConfig //
