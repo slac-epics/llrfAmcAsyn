@@ -116,8 +116,10 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
 
     if(function == paramInitIndex)
     {
-        // Update the parameter value to "in progress..."
+        // Update the parameter values to "in progress..."
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_INPROGRESS, paramInitStatMask);
+        setUIntDigitalParam(paramDCStatIndex,   XC_STAT_INPROGRESS,   paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex,   XC_STAT_INPROGRESS,   paramXCStatMask);
         callParamCallbacks();
 
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
