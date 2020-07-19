@@ -84,12 +84,12 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         success &= llrfAmc->isInited();
 
     // Check if the initialization succeed and update the INIT_STAT parameter
-    if (!success) {
-        std::cerr << driverName << " : Initialization failed!" << std::endl;
-        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
-    } else {
+    if (success) {
         std::cout << driverName << " : Initialization succeed!" << std::endl;
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_SUCCEED, paramInitStatMask);
+    } else {
+        std::cerr << driverName << " : Initialization failed!" << std::endl;
+        setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
     }
 }
 
