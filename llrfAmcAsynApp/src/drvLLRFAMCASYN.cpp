@@ -80,8 +80,6 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
     // Initialize the LlrfAmc object
     std::cout << driverName << " : Initializing the LLRF AMC cards..." << std::endl;
     bool success { llrfAmc->init() };
-    if (success)
-        success &= llrfAmc->isInited();
 
     // Check if the initialization succeed and update the INIT_STAT parameter
     if (success) {
