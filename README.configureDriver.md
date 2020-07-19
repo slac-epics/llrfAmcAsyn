@@ -62,4 +62,5 @@ Some parameters used by the driver have default values that can be changed calli
 - Allowed values for `logLevel` are:
   - 0: Debug log level,
   - 1: Warning log level,
-  - 2: Error log level.
+  - 2: Error log level,
+  - 3: None log level.

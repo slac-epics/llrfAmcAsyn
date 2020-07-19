@@ -241,6 +241,9 @@ extern "C" int LlrfAmcAsynSetLogLevel(int logLevel)
         case 2:
             ILogger::setLevel(LoggerLevel::Error);
             break;
+        case 3:
+            ILogger::setLevel(LoggerLevel::None);
+            break;
         default:
             status = asynError;
             break;
@@ -249,7 +252,7 @@ extern "C" int LlrfAmcAsynSetLogLevel(int logLevel)
     return status;
 }
 
-static const iocshArg LlrfAmcAsynSetLogLevelArg0 = { "logLevel (0: Debug, 1: Warning, 2: Error)", iocshArgInt };
+static const iocshArg LlrfAmcAsynSetLogLevelArg0 = { "logLevel (0: Debug, 1: Warning, 2: Error, 3: None)", iocshArgInt };
 
 static const iocshArg * const LlrfAmcAsynSetLogLevelArgs[] = {
     &LlrfAmcAsynSetLogLevelArg0
