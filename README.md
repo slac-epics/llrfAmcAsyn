@@ -22,7 +22,7 @@ The cards are detected based on the devices defined in the YAML files. The `llrf
   - The Gen1 UpConverter device called `AmcMrLlrfUpConvert`,
   - The Gen2 UpConverter device called `AmcMrLlrfGen2UpConvert`
 
-If the DownConverter or either of the UpConverter devices is not found, the `llrfAmc` will thrown an `td::runtime_error` exception.
+If the DownConverter or either of the UpConverter devices is not found, the `llrfAmc` will thrown an `std::runtime_error` exception.
 
 ### AMC card configuration
 
