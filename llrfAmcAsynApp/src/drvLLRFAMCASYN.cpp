@@ -102,8 +102,8 @@ LLRFAMCASYN::LLRFAMCASYN(const std::string& pn)
         // If 'llrfAmc->init()' failed, then we need to check if the up and down converter
         // status individually.
         setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED,            paramInitStatMask);
-        setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
-        setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
+        setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvLocked(), paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvLocked(),   paramXCStatMask);
     }
 }
 
@@ -150,16 +150,16 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
             setUIntDigitalParam(paramInitStatIndex, INIT_STAT_FAILED, paramInitStatMask);
 
             asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
-                "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvInited()\n", \
+                "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvLocked()\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
 
-            setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvInited(), paramXCStatMask);
+            setUIntDigitalParam(paramDCStatIndex,   llrfAmc->isDownConvLocked(), paramXCStatMask);
 
             asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
-                "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvInited()\n", \
+                "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvLocked()\n", \
                 driverName.c_str(), functionName, function, (this->portName).c_str());
 
-            setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvInited(),   paramXCStatMask);
+            setUIntDigitalParam(paramUCStatIndex,   llrfAmc->isUpConvLocked(),   paramXCStatMask);
 
             status = asynError;
         }
@@ -173,16 +173,16 @@ asynStatus LLRFAMCASYN::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 valu
         callParamCallbacks();
 
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
-            "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvInited()\n", \
+            "%s::%s, function %d, port %s : Calling llrfAmc->isDownConvLocked()\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str());
 
-        setUIntDigitalParam(paramDCStatIndex, llrfAmc->isDownConvInited(), paramXCStatMask);
+        setUIntDigitalParam(paramDCStatIndex, llrfAmc->isDownConvLocked(), paramXCStatMask);
 
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, \
-            "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvInited()\n", \
+            "%s::%s, function %d, port %s : Calling llrfAmc->isUpConvLocked()\n", \
             driverName.c_str(), functionName, function, (this->portName).c_str());
 
-        setUIntDigitalParam(paramUCStatIndex, llrfAmc->isUpConvInited(),   paramXCStatMask);
+        setUIntDigitalParam(paramUCStatIndex, llrfAmc->isUpConvLocked(),   paramXCStatMask);
 
         callParamCallbacks();
 
