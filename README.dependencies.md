@@ -33,8 +33,8 @@ BOOST_TOP                    = $(PACKAGE_SITE_TOP)/$(BOOST_PACKAGE_NAME)/$(BOOST
 BOOST_LIB                    = $(BOOST_TOP)/$(PKG_ARCH)/lib
 BOOST_INCLUDE                = $(BOOST_TOP)/$(PKG_ARCH)/include
 
-LLRFAMC_PACKAGE_NAME         = llrfAmc
-LLRFAMC_VERSION              = master
+LLRFAMC_PACKAGE_NAME         = rf/ llrfAmc
+LLRFAMC_VERSION              = R1.0.0
 LLRFAMC_TOP                  = $(PACKAGE_SITE_TOP)/$(LLRFAMC_PACKAGE_NAME)/$(LLRFAMC_VERSION)
 LLRFAMC_LIB                  = $(LLRFAMC_TOP)/$(PKG_ARCH)/lib
 LLRFAMC_INCLUDE              = $(LLRFAMC_TOP)/$(PKG_ARCH)/include
