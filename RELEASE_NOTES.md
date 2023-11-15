@@ -3,6 +3,10 @@
 Release notes for the LLRF AMC card EPICS module.
 
 ## Releases:
+
+* __R1.0.3__: 2022-11-15  K. Kim
+   * Upgrade yamlLoader R2.3.5
+
 * __R1.0.2__: 2021-10-11  egumtow
   * Upgrade asyn to R4.39-1.0.1
 
